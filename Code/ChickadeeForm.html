@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Contact Form to Email Using JavaScript</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container">
+            <form onsubmit="sendEmail(); reset(); return false;">
+                <h3>BOULDER CHICKADEE STUDY PROPERTY OWNER PORTAL</h3>
+                <h4>What are your initials? Ex: John Andrew Smith = JAS</h4>
+                <input type="text" id="initials" placeholder="Your initials" required>
+                <h4>On what date did you perform your observation?</h4>
+                <input type="text" id="date" placeholder="MM/DD/YYYY" required>
+                <h4>What boxes are on your property?</h4>
+                <input type="text" id="boxNumber" placeholder="111,222,333..." required>
+                <h4>How many boxes are on your property?</h4>
+                <input type="text" id="numberOfBoxes" placeholder="Number of boxes" required>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+        <script src="https://smtpjs.com/v3/smtp.js"></script>
+        <script>
+            function sendEmail(){
+                            Email.send({
+                Host : "smtp.elasticemail.com",
+                Username : "sapa4998@colorado.edu",
+                Password : "7A5A1A41EDCAEA6C2D9441351B6CDDCE27B7",
+                To : "boulderchickadeestudy@gmail.com",
+                From : "sapa4998@colorado.edu",
+                Subject : "New Property Owner Data Report",
+                Body : "Initials: " + document.getElementById("initials").value
+                + "<br> Date: " + document.getElementById("date").value
+                + "<br> Box Numbers: " + document.getElementById("boxNumber").value
+                + "<br> Number of Boxes: " + document.getElementById("numberOfBoxes").value
+            }).then(
+            message => alert("Message Sent Successfully!")
+            );
+            }
+        </script>
+    </body>
+</html>

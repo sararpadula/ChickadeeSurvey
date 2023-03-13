@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Contact Form to Email Using JavaScript</title>
+        <style>
+/*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'poppins', sans-serif;
+}
+
+.container{
+    width: 100%;
+    height: 100vh;
+    background: #001660;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position:relative;
+}
+
+form{
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 2vw 4vw;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 10px;
+}
+
+form h3{
+    color: #555;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+form input, form textarea{
+
+    border: 0;
+    margin: 10px 0;
+    padding: 20px;
+    outline: none;
+    background: #f5f5f5;
+    font-size: 16px;
+}
+form button{
+    padding: 15px;
+    background: #ff5361;
+    color: #fff;
+    font-size: 18px;
+    outline: none;
+    cursor: pointer;
+    width: 150px;
+    margin: 20px auto 0;
+    border-radius: 30px;
+}
+.dynamicForms1{
+    display: none;
+    padding: 15px;
+    width: 100%;
+    height: 100vh;
+    background: #001660;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position:relative;
+}*/
+
+        </style> 
+    </head>
+    <body onload="hidingElements()">
+        <div class="container">
+                <h3>BOULDER CHICKADEE STUDY PROPERTY OWNER PORTAL</h3>
+                <h4>What are your initials? Ex: John Andrew Smith = JAS</h4>
+                <input type="text" id="initials" placeholder="Your initials" required>
+                <h4>On what date did you perform your observation?</h4>
+                <input type="text" id="date" placeholder="MM/DD/YYYY" required>
+                <h4>What boxes are on your property? Separate each number by a comma.</h4>
+                <input type="text" id="boxNumber" placeholder="111,222,333..." required>
+                <h4>How many boxes are on your property?</h4>
+                <input type="number" id="numberOfBoxes" placeholder="Number of boxes" required>
+                <button type="submit" onclick="saveContent()">Start</button>
+           
+        </div>
+        <div id="dynamicForms1">
+            <form>
+                <h3>Questions about nestbox #<span id="outputBoxNumber1">_____</span></h3>
+                <h4>Is this nestbox occupied or unoccupied?</h4>
+                <input type="checkbox" id="occupied1" name="occupied1" value="Occupied" onclick="occupiedFunction(1)">
+                <label for="occupied1">Occupied</label><br>
+                <input type="checkbox" id="unoccupied1" name="unoccupied1" value="Unoccupied" onclick="unoccupiedFunction(1)">
+                <label for="unoccupied1">Unoccupied</label><br>
+                <div id="occupiedForm1">
+                    <form>
+                    <h4>Which of these birds did you see in/near the nest box?</h4>
+                    <input type="radio" id="bird1" name="bird1" value="Black-capped Chickadee">Black-capped Chickadee <br> <img src="https://i.pinimg.com/564x/1b/ff/0e/1bff0e97b89a83f1fcaf442a81c09d07.jpg" alt="black-capped chickadee"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id="bird1" name="bird1" value="Mountain Chickadee">Mountain Chickadee <br> <img src="https://i.pinimg.com/564x/6c/40/38/6c4038d26fcd1d1da0efce61cb782d60.jpg" alt="mountain chickadee"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id="bird1" name="bird1" value="House Wren">House Wren<br> <img src="https://i.pinimg.com/564x/89/fb/37/89fb37ebf708a6b2bc382ea1c36162bb.jpg" alt="house wren"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id="bird1" name="bird1" value="White-breasted Nuthatch">White-breasted Nuthatch<br> <img src="https://i.pinimg.com/564x/36/49/0a/36490a687bd525acad06647ae51216c2.jpg" alt="White-breasted Nuthatch"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id="bird1" name="bird1" value="Red-breasted Nuthatch">Red-breasted Nuthatch<br> <img src="https://i.pinimg.com/564x/87/42/66/874266ab1dd00e62ffc2c1514971df50.jpg" alt="Red-breasted Nuthatch"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id="bird1" name="bird1" value="Pygmy Nuthatch">Pygmy Nuthatch<br> <img src="https://i.pinimg.com/564x/12/9f/41/129f41441537a61af4b8b8417afce2ec.jpg" alt="Pygmy Nuthatch"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id="bird1" name="bird1" value="Unknown">Unknown<br> <img src="https://i.pinimg.com/564x/49/61/74/496174cabb5f1a49e3968071a6195f34.jpg" alt="Unknown"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id="bird1" name="bird1" value="Other" onclick="birdotherFunction(1)">Other<br>
+                    <input type="text" id = "bird1other" name = "bird1other" placeholder="If other describe"> <br>
+                    <h4>What did the adult(s) do during the nest check?</h4>
+                    <input type="radio" id="adult1" name="adult1" value="no adults present">No adults present <br>
+                    <input type="radio" id="adult1" name="adult1" value="Making alert calls/singing">Making alert calls/singing <br>
+                    <input type="radio" id="adult1" name="adult1" value="Remained in the vicinity">Remained in the vicinity <br>
+                    <input type="radio" id="adult1" name="adult1" value="Building nest">Building nest/ seen holding nest material <br>
+                    <input type="radio" id="adult1" name="adult1" value="At box/on nest">At box/on nest <br>
+                    <input type="radio" id="adult1" name="adult1" value="Remained on nest(incubating)">Remained on nest(incubating) <br>
+                    <input type="radio" id="adult1" name="adult1" value="Feeding young">Feeding young <br>
+                    <input type="radio" id="adult1" name="adult1" value="Dead adult(s)">Dead adult(s) <br>
+                    <input type="radio" id="adult1" name="adult1" value="Abandoned">Abandoned <br>
+                    <input type="radio" id="adult1" name="adult1" value="Unsure/Unknown">Unsure/Unknown <br>
+                    <input type="radio" id="adult1" name="adult1" value="Other" onclick="behaviorFunction(1)">Other <br>
+                    <input type="text" id = "behavior1other" name = "behavior1other" placeholder="If other describe"> <br>
+                    <h4>What does your nest box look like?</h4>
+                    <input type="radio" id = "nestboxo1" name="nestboxo1" value="Empty">Empty <br><img src="https://i.pinimg.com/564x/af/f6/05/aff6052f31ff11e9a867c6fc2d6a2563.jpg" alt="empty nestbox"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo1" name="nestboxo1" value="Shavings">Fully or partially full of shavings <br> <img src="https://i.pinimg.com/564x/a4/f9/d1/a4f9d19419c006c79ff99e89eb812a49.jpg" alt="nestbox full of shavings"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo1" name="nestboxo1" value="Shavings removed">Shavings fully removed <br> <img src="https://i.pinimg.com/564x/19/c7/4e/19c74e101c46f5362922241a93fdc8f8.jpg" alt="nestbox without shavings"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo1" name="nestboxo1" value="Some moss">Some moss<br> <img src="https://i.pinimg.com/564x/b1/40/2b/b1402b5ffe35d8f8c71e348bec308177.jpg" alt="some moss"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo1" name="nestboxo1" value="Some sticks">Some sticks<br> <img src="https://i.pinimg.com/564x/74/75/5d/74755ddf382f955fbbe324b4145bf060.jpg" alt="some sticks"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo1" name="nestboxo1" value="Incomplete nest (moss layer)">Incomplete nest with moss<br> <img src="https://i.pinimg.com/564x/50/ca/2f/50ca2f65411038b441344886bb118906.jpg" alt="Incomplete nest with moss"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo1" name="nestboxo1" value="Incomplete nest (fur)">Incomplete nest with fur<br> <img src="https://i.pinimg.com/564x/6d/36/09/6d3609e48478e0f985939ed924981e9a.jpg" alt="Incomplete nest with fur"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo1" name="nestboxo1" value="Incomplete nest (sticks)">Incomplete nest with sticks<br> <img src="https://i.pinimg.com/564x/c1/07/1d/c1071dbde3b51ff94199f8170a03e5fd.jpg" alt="Incomplete nest with sticks"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo1" name="nestboxo1" value="Other" onclick="otherOFunction(1)">Other<br>
+                    <input type="text" id = "nestboxo1other" name = "nestboxo1other" placeholder="If other describe"> <br>
+                    </form>
+                </div>
+                <div id="unoccupiedForm1">
+                    <form>
+                    <h4>What does your unoccupied nest box look like?</h4>
+                    <input type="radio" id = "nestbox1" name="nestbox1" value="Empty">Empty <br><img src="https://i.pinimg.com/564x/af/f6/05/aff6052f31ff11e9a867c6fc2d6a2563.jpg" alt="empty nestbox"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestbox1" name="nestbox1" value="Shavings">Fully or partially full of shavings <br> <img src="https://i.pinimg.com/564x/a4/f9/d1/a4f9d19419c006c79ff99e89eb812a49.jpg" alt="nestbox full of shavings"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestbox1" name="nestbox1" value="Shavings removed">Shavings fully removed <br> <img src="https://i.pinimg.com/564x/19/c7/4e/19c74e101c46f5362922241a93fdc8f8.jpg" alt="nestbox without shavings"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestbox1" name="nestbox1" value="Some moss">Some moss<br> <img src="https://i.pinimg.com/564x/b1/40/2b/b1402b5ffe35d8f8c71e348bec308177.jpg" alt="some moss"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestbox1" name="nestbox1" value="Some sticks">Some sticks<br> <img src="https://i.pinimg.com/564x/74/75/5d/74755ddf382f955fbbe324b4145bf060.jpg" alt="some sticks"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestbox1" name="nestbox1" value="Incomplete nest (moss layer)">Incomplete nest with moss<br> <img src="https://i.pinimg.com/564x/50/ca/2f/50ca2f65411038b441344886bb118906.jpg" alt="Incomplete nest with moss"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestbox1" name="nestbox1" value="Incomplete nest (fur)">Incomplete nest with fur<br> <img src="https://i.pinimg.com/564x/6d/36/09/6d3609e48478e0f985939ed924981e9a.jpg" alt="Incomplete nest with fur"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestbox1" name="nestbox1" value="Incomplete nest (sticks)">Incomplete nest with sticks<br> <img src="https://i.pinimg.com/564x/c1/07/1d/c1071dbde3b51ff94199f8170a03e5fd.jpg" alt="Incomplete nest with sticks"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestbox1" name="nestbox1" value="Other" onclick="otherFunction(1)">Other<br>
+                    <input type="text" id = "nestbox1other" name = "nestbox1other" placeholder="If other describe"> <br>
+                    </form>
+                </div>
+            </form>
+        </div>
+        <div id="dynamicForms2">
+            <form>
+                <h3>Questions about nestbox #<span id="outputBoxNumber2">_____</span></h3>
+                <h4>Is this nestbox occupied or unoccupied?</h4>
+                <input type="checkbox" id="occupied2" name="occupied2" value="Occupied" onclick="occupiedFunction(2)">
+                <label for="occupied2">Occupied</label><br>
+                <input type="checkbox" id="unoccupied2" name="unoccupied2" value="Unoccupied" onclick="unoccupiedFunction(2)">
+                <label for="unoccupied2">Unoccupied</label><br>
+                <div id="occupiedForm2">
+                    <form>
+                        <h4>Which of these birds did you see in/near the nest box?</h4>
+                        <input type="radio" id="bird2" name="bird2" value="Black-capped Chickadee">Black-capped Chickadee <br> <img src="https://i.pinimg.com/564x/1b/ff/0e/1bff0e97b89a83f1fcaf442a81c09d07.jpg" alt="black-capped chickadee"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id="bird2" name="bird2" value="Mountain Chickadee">Mountain Chickadee <br> <img src="https://i.pinimg.com/564x/6c/40/38/6c4038d26fcd1d1da0efce61cb782d60.jpg" alt="mountain chickadee"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id="bird2" name="bird2" value="House Wren">House Wren<br> <img src="https://i.pinimg.com/564x/89/fb/37/89fb37ebf708a6b2bc382ea1c36162bb.jpg" alt="house wren"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id="bird2" name="bird2" value="White-breasted Nuthatch">White-breasted Nuthatch<br> <img src="https://i.pinimg.com/564x/36/49/0a/36490a687bd525acad06647ae51216c2.jpg" alt="White-breasted Nuthatch"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id="bird2" name="bird2" value="Red-breasted Nuthatch">Red-breasted Nuthatch<br> <img src="https://i.pinimg.com/564x/87/42/66/874266ab1dd00e62ffc2c1514971df50.jpg" alt="Red-breasted Nuthatch"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id="bird2" name="bird2" value="Pygmy Nuthatch">Pygmy Nuthatch<br> <img src="https://i.pinimg.com/564x/12/9f/41/129f41441537a61af4b8b8417afce2ec.jpg" alt="Pygmy Nuthatch"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id="bird2" name="bird2" value="Unknown">Unknown<br> <img src="https://i.pinimg.com/564x/49/61/74/496174cabb5f1a49e3968071a6195f34.jpg" alt="Unknown"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id="bird2" name="bird2" value="Other" onclick="birdotherFunction(2)">Other<br>
+                        <input type="text" id = "bird2other" name = "bird2other" placeholder="If other describe"> <br>
+                        <h4>What did the adult(s) do during the nest check?</h4>
+                        <input type="radio" id="adult2" name="adult2" value="no adults present">No adults present <br>
+                        <input type="radio" id="adult2" name="adult2" value="Making alert calls/singing">Making alert calls/singing <br>
+                        <input type="radio" id="adult2" name="adult2" value="Remained in the vicinity">Remained in the vicinity <br>
+                        <input type="radio" id="adult2" name="adult2" value="Building nest">Building nest/ seen holding nest material <br>
+                        <input type="radio" id="adult2" name="adult2" value="At box/on nest">At box/on nest <br>
+                        <input type="radio" id="adult2" name="adult2" value="Remained on nest(incubating)">Remained on nest(incubating) <br>
+                        <input type="radio" id="adult2" name="adult2" value="Feeding young">Feeding young <br>
+                        <input type="radio" id="adult2" name="adult2" value="Dead adult(s)">Dead adult(s) <br>
+                        <input type="radio" id="adult2" name="adult2" value="Abandoned">Abandoned <br>
+                        <input type="radio" id="adult2" name="adult2" value="Unsure/Unknown">Unsure/Unknown <br>
+                        <input type="radio" id="adult2" name="adult2" value="Other" onclick="behaviorFunction(2)">Other <br>
+                        <input type="text" id = "behavior2other" name = "behavior2other" placeholder="If other describe">
+                        <h4>What does your nest box look like?</h4>
+                    <input type="radio" id = "nestboxo2" name="nestboxo2" value="Empty">Empty <br><img src="https://i.pinimg.com/564x/af/f6/05/aff6052f31ff11e9a867c6fc2d6a2563.jpg" alt="empty nestbox"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo2" name="nestboxo2" value="Shavings">Fully or partially full of shavings <br> <img src="https://i.pinimg.com/564x/a4/f9/d1/a4f9d19419c006c79ff99e89eb812a49.jpg" alt="nestbox full of shavings"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo2" name="nestboxo2" value="Shavings removed">Shavings fully removed <br> <img src="https://i.pinimg.com/564x/19/c7/4e/19c74e101c46f5362922241a93fdc8f8.jpg" alt="nestbox without shavings"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo2" name="nestboxo2" value="Some moss">Some moss<br> <img src="https://i.pinimg.com/564x/b1/40/2b/b1402b5ffe35d8f8c71e348bec308177.jpg" alt="some moss"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo2" name="nestboxo2" value="Some sticks">Some sticks<br> <img src="https://i.pinimg.com/564x/74/75/5d/74755ddf382f955fbbe324b4145bf060.jpg" alt="some sticks"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo2" name="nestboxo2" value="Incomplete nest (moss layer)">Incomplete nest with moss<br> <img src="https://i.pinimg.com/564x/50/ca/2f/50ca2f65411038b441344886bb118906.jpg" alt="Incomplete nest with moss"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo2" name="nestboxo2" value="Incomplete nest (fur)">Incomplete nest with fur<br> <img src="https://i.pinimg.com/564x/6d/36/09/6d3609e48478e0f985939ed924981e9a.jpg" alt="Incomplete nest with fur"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo2" name="nestboxo2" value="Incomplete nest (sticks)">Incomplete nest with sticks<br> <img src="https://i.pinimg.com/564x/c1/07/1d/c1071dbde3b51ff94199f8170a03e5fd.jpg" alt="Incomplete nest with sticks"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo2" name="nestboxo2" value="Other" onclick="otherOFunction(2)">Other<br>
+                    <input type="text" id = "nestboxo2other" name = "nestboxo2other" placeholder="If other describe"> <br>
+                        </form>
+                </div>
+                <div id="unoccupiedForm2">
+                    <form>
+                        <h4>What does your unoccupied nest box look like?</h4>
+                        <input type="radio" id = "nestbox2" name="nestbox2" value="Empty">Empty <br><img src="https://i.pinimg.com/564x/af/f6/05/aff6052f31ff11e9a867c6fc2d6a2563.jpg" alt="empty nestbox"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id = "nestbox2" name="nestbox2" value="Shavings">Fully or partially full of shavings <br> <img src="https://i.pinimg.com/564x/a4/f9/d1/a4f9d19419c006c79ff99e89eb812a49.jpg" alt="nestbox full of shavings"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id = "nestbox2" name="nestbox2" value="Shavings removed">Shavings fully removed <br> <img src="https://i.pinimg.com/564x/19/c7/4e/19c74e101c46f5362922241a93fdc8f8.jpg" alt="nestbox without shavings"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id = "nestbox2" name="nestbox2" value="Some moss">Some moss<br> <img src="https://i.pinimg.com/564x/b1/40/2b/b1402b5ffe35d8f8c71e348bec308177.jpg" alt="some moss"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id = "nestbox2" name="nestbox2" value="Some sticks">Some sticks<br> <img src="https://i.pinimg.com/564x/74/75/5d/74755ddf382f955fbbe324b4145bf060.jpg" alt="some sticks"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id = "nestbox2" name="nestbox2" value="Incomplete nest (moss layer)">Incomplete nest with moss<br> <img src="https://i.pinimg.com/564x/50/ca/2f/50ca2f65411038b441344886bb118906.jpg" alt="Incomplete nest with moss"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id = "nestbox2" name="nestbox2" value="Incomplete nest (fur)">Incomplete nest with fur<br> <img src="https://i.pinimg.com/564x/6d/36/09/6d3609e48478e0f985939ed924981e9a.jpg" alt="Incomplete nest with fur"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id = "nestbox2" name="nestbox2" value="Incomplete nest (sticks)">Incomplete nest with sticks<br> <img src="https://i.pinimg.com/564x/c1/07/1d/c1071dbde3b51ff94199f8170a03e5fd.jpg" alt="Incomplete nest with sticks"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id = "nestbox2" name="nestbox2" value="Other" onclick="otherOFunction(2)">Other<br>
+                        <input type="text" id = "nestboxo2other" name = "nestboxo2other" placeholder="If other describe">
+                        </form>
+                </div>
+            </form>
+        </div>
+        <div id="dynamicForms3">
+            <form>
+                <h3>Questions about nestbox #<span id="outputBoxNumber3">_____</span></h3>
+                <h4>Is this nestbox occupied or unoccupied?</h4>
+                <input type="checkbox" id="occupied3" name="occupied3" value="Occupied" onclick="occupiedFunction(3)">
+                <label for="occupied3">Occupied</label><br>
+                <input type="checkbox" id="unoccupied3" name="unoccupied3" value="Unoccupied" onclick="unoccupiedFunction(3)">
+                <label for="unoccupied3">Unoccupied</label><br>
+                <div id="occupiedForm3">
+                    <form>
+                        <h4>Which of these birds did you see in/near the nest box?</h4>
+                        <input type="radio" id="bird3" name="bird3" value="Black-capped Chickadee">Black-capped Chickadee <br> <img src="https://i.pinimg.com/564x/1b/ff/0e/1bff0e97b89a83f1fcaf442a81c09d07.jpg" alt="black-capped chickadee"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id="bird3" name="bird3" value="Mountain Chickadee">Mountain Chickadee <br> <img src="https://i.pinimg.com/564x/6c/40/38/6c4038d26fcd1d1da0efce61cb782d60.jpg" alt="mountain chickadee"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id="bird3" name="bird3" value="House Wren">House Wren<br> <img src="https://i.pinimg.com/564x/89/fb/37/89fb37ebf708a6b2bc382ea1c36162bb.jpg" alt="house wren"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id="bird3" name="bird3" value="White-breasted Nuthatch">White-breasted Nuthatch<br> <img src="https://i.pinimg.com/564x/36/49/0a/36490a687bd525acad06647ae51216c2.jpg" alt="White-breasted Nuthatch"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id="bird3" name="bird3" value="Red-breasted Nuthatch">Red-breasted Nuthatch<br> <img src="https://i.pinimg.com/564x/87/42/66/874266ab1dd00e62ffc2c1514971df50.jpg" alt="Red-breasted Nuthatch"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id="bird3" name="bird3" value="Pygmy Nuthatch">Pygmy Nuthatch<br> <img src="https://i.pinimg.com/564x/12/9f/41/129f41441537a61af4b8b8417afce2ec.jpg" alt="Pygmy Nuthatch"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id="bird3" name="bird3" value="Unknown">Unknown<br> <img src="https://i.pinimg.com/564x/49/61/74/496174cabb5f1a49e3968071a6195f34.jpg" alt="Unknown"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id="bird3" name="bird3" value="Other" onclick="birdotherFunction(3)">Other<br>
+                        <input type="text" id = "bird3other" name = "bird3other" placeholder="If other describe"> <br>
+                        <h4>What did the adult(s) do during the nest check?</h4>
+                        <input type="radio" id="adult3" name="adult3" value="no adults present">No adults present <br>
+                        <input type="radio" id="adult3" name="adult3" value="Making alert calls/singing">Making alert calls/singing <br>
+                        <input type="radio" id="adult3" name="adult3" value="Remained in the vicinity">Remained in the vicinity <br>
+                        <input type="radio" id="adult3" name="adult3" value="Building nest">Building nest/ seen holding nest material <br>
+                        <input type="radio" id="adult3" name="adult3" value="At box/on nest">At box/on nest <br>
+                        <input type="radio" id="adult3" name="adult3" value="Remained on nest(incubating)">Remained on nest(incubating) <br>
+                        <input type="radio" id="adult3" name="adult3" value="Feeding young">Feeding young <br>
+                        <input type="radio" id="adult3" name="adult3" value="Dead adult(s)">Dead adult(s) <br>
+                        <input type="radio" id="adult3" name="adult3" value="Abandoned">Abandoned <br>
+                        <input type="radio" id="adult3" name="adult3" value="Unsure/Unknown">Unsure/Unknown <br>
+                        <input type="radio" id="adult3" name="adult3" value="Other" onclick="behaviorFunction(3)">Other <br>
+                        <input type="text" id = "behavior3other" name = "behavior3other" placeholder="If other describe">
+                        <h4>What does your nest box look like?</h4>
+                    <input type="radio" id = "nestboxo3" name="nestboxo3" value="Empty">Empty <br><img src="https://i.pinimg.com/564x/af/f6/05/aff6052f31ff11e9a867c6fc2d6a2563.jpg" alt="empty nestbox"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo3" name="nestboxo3" value="Shavings">Fully or partially full of shavings <br> <img src="https://i.pinimg.com/564x/a4/f9/d1/a4f9d19419c006c79ff99e89eb812a49.jpg" alt="nestbox full of shavings"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo3" name="nestboxo3" value="Shavings removed">Shavings fully removed <br> <img src="https://i.pinimg.com/564x/19/c7/4e/19c74e101c46f5362922241a93fdc8f8.jpg" alt="nestbox without shavings"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo3" name="nestboxo3" value="Some moss">Some moss<br> <img src="https://i.pinimg.com/564x/b1/40/2b/b1402b5ffe35d8f8c71e348bec308177.jpg" alt="some moss"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo3" name="nestboxo3" value="Some sticks">Some sticks<br> <img src="https://i.pinimg.com/564x/74/75/5d/74755ddf382f955fbbe324b4145bf060.jpg" alt="some sticks"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo3" name="nestboxo3" value="Incomplete nest (moss layer)">Incomplete nest with moss<br> <img src="https://i.pinimg.com/564x/50/ca/2f/50ca2f65411038b441344886bb118906.jpg" alt="Incomplete nest with moss"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo3" name="nestboxo3" value="Incomplete nest (fur)">Incomplete nest with fur<br> <img src="https://i.pinimg.com/564x/6d/36/09/6d3609e48478e0f985939ed924981e9a.jpg" alt="Incomplete nest with fur"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo3" name="nestboxo3" value="Incomplete nest (sticks)">Incomplete nest with sticks<br> <img src="https://i.pinimg.com/564x/c1/07/1d/c1071dbde3b51ff94199f8170a03e5fd.jpg" alt="Incomplete nest with sticks"
+                    width = "200" height = "200"><br>
+                    <input type="radio" id = "nestboxo3" name="nestboxo3" value="Other" onclick="otherOFunction(3)">Other<br>
+                    <input type="text" id = "nestboxo3other" name = "nestboxo3other" placeholder="If other describe"> <br>
+                        </form>
+                </div>
+                <div id="unoccupiedForm3">
+                    <form>
+                        <h4>What does your unoccupied nest box look like?</h4>
+                        <input type="radio" id = "nestbox3" name="nestbox3" value="Empty">Empty <br><img src="https://i.pinimg.com/564x/af/f6/05/aff6052f31ff11e9a867c6fc2d6a2563.jpg" alt="empty nestbox"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id = "nestbox3" name="nestbox3" value="Shavings">Fully or partially full of shavings <br> <img src="https://i.pinimg.com/564x/a4/f9/d1/a4f9d19419c006c79ff99e89eb812a49.jpg" alt="nestbox full of shavings"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id = "nestbox3" name="nestbox3" value="Shavings removed">Shavings fully removed <br> <img src="https://i.pinimg.com/564x/19/c7/4e/19c74e101c46f5362922241a93fdc8f8.jpg" alt="nestbox without shavings"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id = "nestbox3" name="nestbox3" value="Some moss">Some moss<br> <img src="https://i.pinimg.com/564x/b1/40/2b/b1402b5ffe35d8f8c71e348bec308177.jpg" alt="some moss"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id = "nestbox3" name="nestbox3" value="Some sticks">Some sticks<br> <img src="https://i.pinimg.com/564x/74/75/5d/74755ddf382f955fbbe324b4145bf060.jpg" alt="some sticks"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id = "nestbox3" name="nestbox3" value="Incomplete nest (moss layer)">Incomplete nest with moss<br> <img src="https://i.pinimg.com/564x/50/ca/2f/50ca2f65411038b441344886bb118906.jpg" alt="Incomplete nest with moss"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id = "nestbox3" name="nestbox3" value="Incomplete nest (fur)">Incomplete nest with fur<br> <img src="https://i.pinimg.com/564x/6d/36/09/6d3609e48478e0f985939ed924981e9a.jpg" alt="Incomplete nest with fur"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id = "nestbox3" name="nestbox3" value="Incomplete nest (sticks)">Incomplete nest with sticks<br> <img src="https://i.pinimg.com/564x/c1/07/1d/c1071dbde3b51ff94199f8170a03e5fd.jpg" alt="Incomplete nest with sticks"
+                        width = "200" height = "200"><br>
+                        <input type="radio" id = "nestbox3" name="nestbox3" value="Other" onclick="otherFunction(3)">Other<br>
+                        <input type="text" id = "nestbox3other" name = "nestbox3other" placeholder="If other describe">
+                        </form>
+                </div>
+            </form>
+            
+        </div>
+        <button id = "submitButton" onclick="sendEmail()">Submit</button>
+        <script src="https://smtpjs.com/v3/smtp.js"></script>
+        <script>
+            function hidingElements(){
+                document.getElementById("dynamicForms1").style.display="none";
+                document.getElementById("dynamicForms2").style.display="none";
+                document.getElementById("dynamicForms3").style.display="none";
+                document.getElementById("occupiedForm1").style.display="none";
+                document.getElementById("unoccupiedForm1").style.display="none";
+                document.getElementById("occupiedForm2").style.display="none";
+                document.getElementById("unoccupiedForm2").style.display="none";
+                document.getElementById("occupiedForm3").style.display="none";
+                document.getElementById("unoccupiedForm3").style.display="none";
+                document.getElementById("nestbox1other").style.display="none";
+                document.getElementById("nestbox2other").style.display="none";
+                document.getElementById("nestbox3other").style.display="none";
+                document.getElementById("nestboxo1other").style.display="none";
+                document.getElementById("nestboxo2other").style.display="none";
+                document.getElementById("nestboxo3other").style.display="none";
+                document.getElementById("bird1other").style.display="none";
+                document.getElementById("bird2other").style.display="none";
+                document.getElementById("bird3other").style.display="none";
+                document.getElementById("behavior1other").style.display="none";
+                document.getElementById("behavior2other").style.display="none";
+                document.getElementById("behavior3other").style.display="none";
+                document.getElementById("submitButton").style.display="none";
+           
+            }
+            function saveContent(){
+                document.getElementById("submitButton").style.display="block";
+                let boxNumbersString = document.getElementById("boxNumber").value;
+                let boxNumbersArray = boxNumbersString.split(',');
+                console.log(boxNumbersArray)
+                var boxNumbers = document.getElementById("numberOfBoxes").value;
+                for(let i = 1; i<= document.getElementById("numberOfBoxes").value; i++)
+                {
+                    var outputBox = boxNumbersArray[i-1];
+                    document.getElementById("outputBoxNumber"+i).innerText =outputBox;
+                    document.getElementById("dynamicForms"+i).style.display="block";
+                }
+            }
+            function behaviorFunction(a){
+                document.getElementById("behavior"+a+"other").style.display="block";
+            }
+            
+            function birdotherFunction(a){
+                document.getElementById("bird"+a+"other").style.display="block";
+
+            }
+            function otherFunction(a){
+                    document.getElementById("nestbox"+a+"other").style.display="block";
+                
+            }
+            function otherOFunction(a){
+                    document.getElementById("nestboxo"+a+"other").style.display="block";
+                
+            }
+            function occupiedFunction(a){
+                if(document.getElementById("occupied"+a).checked){
+                    document.getElementById("occupiedForm"+a).style.display="block";
+                }
+                else{
+                    document.getElementById("occupiedForm"+a).style.display="none"
+                }
+            }
+            function unoccupiedFunction(a){
+                if(document.getElementById("unoccupied"+a).checked){
+                    document.getElementById("unoccupiedForm"+a).style.display="block";
+                }
+                else{
+                    document.getElementById("unoccupiedForm"+a).style.display="none"
+                }
+
+            }
+            
+            function sendEmail(){
+                var emailString = "";
+                let boxNumbersString = document.getElementById("boxNumber").value;
+                let boxNumbersArray = boxNumbersString.split(',');
+                console.log(boxNumbersArray)
+                var bird = "";
+                var adult = "";
+                var nestboxo = "";
+                var nestbox = "";
+                for(let i=1; i<= document.getElementById("numberOfBoxes").value; i++){
+                emailString += "<br>Nestbox #"+boxNumbersArray[i-1]+"-------------------- <br>";
+              
+                if(document.getElementById("occupied"+i).checked){
+                    bird = document.getElementsByName("bird"+i);
+                    adult = document.getElementsByName("adult"+i);
+                    nestboxo = document.getElementsByName("nestboxo"+i);
+                    emailString += "Occupation Status: Occupied"
+                for(j = 0; j < bird.length; j++) {
+                    if(bird[j].checked){
+                     emailString += "<br>Occupying Bird: "+bird[j].value;
+                    }
+                }
+                for(j = 0; j < adult.length; j++) {
+                    if(adult[j].checked){
+                     emailString += "<br> Behavior During Nestcheck: "+adult[j].value;
+                    }
+                }
+                for(j = 0; j < nestboxo.length; j++) {
+                    if(nestboxo[j].checked){
+                     emailString += "<br>Nestbox Status: "+nestboxo[j].value;
+                    }
+                }
+                    
+                }
+              
+                if(document.getElementById("unoccupied"+i).checked){
+                    emailString += "Occupation status: Unoccupied";
+                nestbox = document.getElementsByName("nestbox"+i);
+                for(j = 0; j < nestbox.length; j++) {
+                    if(nestbox[j].checked){
+                     emailString += "<br>Nestbox Status: "+nestbox[j].value;
+                    }
+                }
+              
+                }
+
+            }
+                            Email.send({
+                Host : "smtp.elasticemail.com",
+                Username : "sapa4998@colorado.edu",
+                Password : "7A5A1A41EDCAEA6C2D9441351B6CDDCE27B7",
+                To : "sarapadula22@gmail.com",
+                From : "sapa4998@colorado.edu",
+                Subject : document.getElementById("initials").value+" Submitted a New Data Report on "+document.getElementById("date").value,
+                Body : "Initials: " + document.getElementById("initials").value
+                + "<br> Date: " + document.getElementById("date").value
+                + "<br> Box Numbers: " + document.getElementById("boxNumber").value
+                + "<br> Number of Boxes: " + document.getElementById("numberOfBoxes").value
+                + emailString
+            }).then(
+            message => alert("Message Sent Successfully!")
+            );
+            }
+        </script>
+    </body>
+</html>
